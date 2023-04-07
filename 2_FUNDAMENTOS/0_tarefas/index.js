@@ -1,17 +1,19 @@
 const chalk = require('chalk')
-const { error } = require('console')
 const inquirer = require('inquirer')
 
 
 inquirer.prompt([{
-    name:'Digite seu Nome ',
+    name:'nome',
+    message:'Qual o seu nome ?'
    
 },{
 
-    name:'Digite sua idade',
-}
-]).then((responsta) =>{
+    name:'idade',
+    message:'Qual a sua idade'
+},
+]).then((resposta) =>{
 
-    console.log(chalk.bgYellow(responsta))
+    const resp = `O nome do usuario é ${resposta.nome} e ele tem ${resposta.idade}`
+    console.log(chalk.bgYellow.black(resp))
 
 }).catch((error) => console.log(error))
