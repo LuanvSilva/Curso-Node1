@@ -15,7 +15,8 @@ const name = urlInfo.query.name
         res.write(data)
         return res.end()
       })}else{
-        fs.writeFile('arquivo.txt',name,function(err,data){
+        const nameNewLine = name + '\r\n'
+        fs.appendFile('arquivo.txt',nameNewLine,function(err,data){
             res.writeHead(302,{
                 location:'/',
             })
