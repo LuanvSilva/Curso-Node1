@@ -11,7 +11,7 @@ function operation() {
             type: 'list',
             name: 'action',
             message: 'O que voce deseja fazer',
-            choices: ['Criar Conta', 'Consutar Saldo', 'Depositar', 'Sacar', 'Sair',],
+            choices: ['Criar Conta', 'Consutar Saldo','Transferir', 'Depositar', 'Sacar', 'Sair',],
         },
     ]).then((answer) => {
         const action = answer['action']
@@ -19,7 +19,10 @@ function operation() {
             createAccount()
         }else if(action === 'Depositar'){
             deposit()
-        }else if(action === 'Consutar Saldo'){
+        }else if(action === 'Transferir'){
+            transfer()
+        }
+        else if(action === 'Consutar Saldo'){
             getAccountBalance()
 
         }else if(action === 'Sacar'){
@@ -195,56 +198,65 @@ function removeAmount(accountName, amount){
             operation()
     }
 
-
-    function transfer() {
-        inquirer.prompt([{
-          name:'accountName',
-          message:'Qual o nome da sua conta',
-        },]).then((answer) =>{
-          const accoutName = answer['accountName']
-          if(!checkAccount(accoutName)){
-              return transfer()
-          }      
-      
-          inquirer.prompt([{
-              name:'amount',
-              message:'Quanto voce deseja transferir',
-      
-          },]).then((answer) =>{
-              const amount = answer['amount']
-              removeAmount(accoutName,amount)
-             
-      
-      
-          }).catch((err) =>{console.log(err)})
-      
-        }).catch((err) =>{console.log(err)})
-      
+// Função para transferir dinheiro entre contas
+function transfer() {
+    inquirer.prompt([{
+        name: 'fromAccountName',
+        message: 'Qual o nome da conta de origem?',
+      },
+      {
+        name: 'toAccountName',
+        message: 'Qual o nome da conta de destino?',
+      },
+    ]).then((answer) => {
+      const fromAccountName = answer['fromAccountName'];
+      const toAccountName = answer['toAccountName'];
+  
+      // Verificar se as contas existem
+      if (!checkAccount(fromAccountName)) {
+        return transfer();
       }
-      
-      function removeAmount(accountName, amount){
-          const accountData = getAccount(accountName)
-      
-          if(!amount){
-              console.log(chalk.bgRed.black('Ocorreu um erro, tente novamente mais tarde'))
-              return transfer()
-          }
-          if(accountData < amount){
-              console.log(chalk.bgRed.black('Valor Indisponivel'))
-              return transfer()
-          }
-          accountData.balance = parseFloat(accountData.balance) - parseFloat(amount)
-      
-          fs.writeFileSync(`accounts/${accountName}.json`, JSON.stringify(accountData), function(err){
-              console.log(err) },)
-      
-              console.log(chalk.green(`Foi realizado uma tranferencia  de ${amount} da sua conta `))
-                  
-
-
-
-
-          }
-      
+      if (!checkAccount(toAccountName)) {
+        return transfer();
+      }
+  
+      inquirer.prompt([{
+        name: 'amount',
+        message: 'Quanto você deseja transferir?',
+      }]).then((answer) => {
+        const amount = parseFloat(answer['amount']);
+  
+        // Verificar se o valor é válido e há saldo suficiente na conta de origem
+        const fromAccountData = getAccount(fromAccountName);
+        if (isNaN(amount) || amount <= 0) {
+          console.log(chalk.bgRed.black('O valor inserido é inválido.'));
+          return transfer();
+        }
+        if (amount > fromAccountData.balance) {
+          console.log(chalk.bgRed.black('Saldo insuficiente na conta de origem.'));
+          return transfer();
+        }
+  
+        // Subtrair o valor da conta de origem e adicioná-lo à conta de destino
+        const toAccountData = getAccount(toAccountName);
+        fromAccountData.balance -= amount;
+        toAccountData.balance += amount;
+  
+        // Salvar as alterações nos arquivos JSON de ambas as contas
+        fs.writeFileSync(`accounts/${fromAccountName}.json`, JSON.stringify(fromAccountData), function(err){
+          console.log(err)
+        })
+        fs.writeFileSync(`accounts/${toAccountName}.json`, JSON.stringify(toAccountData), function(err){
+          console.log(err)
+        })
+  
+        console.log(chalk.green(`Transferência de R$ ${amount} realizada com sucesso da conta ${fromAccountName} para a conta ${toAccountName}.`));
+        operation();
+      }).catch((err) => console.log(err))
+    }).catch((err) => console.log(err))
+  }
+  
+  
+  
           
       
