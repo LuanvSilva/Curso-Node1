@@ -74,19 +74,52 @@ function deposit(){
         if(!checkAccount(accountName)){
             return deposit()
         }
+        //////////////////////////////////
         inquirer.prompt([{
-            name:'accountName',
+            name:'amount',
             message:'Quanto voce deseja depositar',
-        },]).then((answer) =>{
-            
+
+        },]
+        ).then((answer) =>{
+            const amount = answer['amount']
+            addAmount(accountName,amount)
+            operation()
 
         }).catch((err) => console.log(err))
     }).catch((err) => console.log(err))
 }
+
+//FUNÇAO QUE VERIFICA SE A CONTA EXISTE
 function checkAccount(accountName){
     if(!fs.existsSync(`accounts/${accountName}.json`)){
         console.log(chalk.bgRed.black('Esta conta nao existe, escolha outro nome!'))
         return false
     }
     return true
+}
+
+// FUNÇAO RESPONAVEL POR DEPOSITAR E VERIFICAR SE FOI FEITO DEPOSITO
+function addAmount(accountName, amount){
+
+const accountData = getAccount(accountName)
+
+
+if(!amount){
+    console.log(chalk.bgRed.black('Ocorreu um erro, tente novamente mais tarde! '))
+    return deposit()
+} 
+
+ accountData.balance = parseFloat(amount) + parseFloat(accountData.balance)
+
+fs.writeFileSync(`accounts/${accountName}.json`, JSON.stringify(accountData), function(err){
+    console.log(err)
+})
+console.log(chalk.green(`Foi depositado o valor de R$ ${amount} na sua conta!`))
+}
+
+function getAccount(accountName){
+const accountJSON = fs.readFileSync(`accounts/${accountName}.json`, {encoding:'utf-8', flag:'r'})
+
+return JSON.parse(accountJSON)
+
 }
