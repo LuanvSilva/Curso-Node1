@@ -8,7 +8,7 @@ app.get('/',(req,res) =>{
     
     res.sendFile(`${basePath}/index.html`)
 })
-  
+
 app.listen(port, ()=>{
     console.log(`App rodando na porta ${port}`)
 })
