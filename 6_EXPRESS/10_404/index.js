@@ -19,7 +19,7 @@ const basePath = path.join(__dirname, 'tamplates')
 
 app.use('/users',users)
 
-app.get('/',(req,res) =>{
+app.get('/',(req,res) =>{   
   
     res.sendFile(`${basePath}/index.html`)
 })
