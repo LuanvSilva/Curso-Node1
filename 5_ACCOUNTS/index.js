@@ -5,6 +5,8 @@ const chalk = require('chalk')
 const fs = require('fs')
 const { error } = require('console')
 operation()
+
+//MENU DO BANCO ACCOUNTS
 function operation() {
     inquirer.prompt([
         {
@@ -35,13 +37,13 @@ function operation() {
 
     }).catch((err) => console.log(err))
 }
- //Criação de conta
+ //FUNÇAO RESPONSAVEL POR CRIAÇAO DE CONTA PART1
 function createAccount(){
     console.log(chalk.bgGreen.black('Parabéns por escolher o nosso banco'))
     console.log(chalk.bgGreen('Defina as opção da sua conta a seguir'))
     buildAccount()
 }
-
+//FUNÇAO RESPONSAVEL POR CRIAÇAO DE CONTA PART2
 function buildAccount(){
     inquirer.prompt([{
 
@@ -178,6 +180,7 @@ function withdraw() {
 
 }
 
+//FUNÇAO RESPONSAVEL POR REALIZAR O SAQUE DA CONTA
 function removeAmount(accountName, amount){
     const accountData = getAccount(accountName)
 
@@ -198,7 +201,7 @@ function removeAmount(accountName, amount){
             operation()
     }
 
-// Função para transferir dinheiro entre contas
+// FUNÇAO RESPONSAVEL POR TRANFERIR DINHEIRO ENTRE AS CONTAS
 function transfer() {
     inquirer.prompt([{
         name: 'fromAccountName',

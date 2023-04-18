@@ -26,10 +26,10 @@ function operation(){
         createAccount()
     }else if(action === 'Depositar'){
        deposit()
-    }else if(action === 'Consutar Saldo'){
-
-    }else if(action === 'Depositar'){
-
+    }else if(action === 'Consultar Saldo'){
+        getAccountBalance()
+    }else if(action === 'Sacar'){
+        withdraw()
     }else if(action === 'Sair'){
         console.log(chalk.bgBlue.black('Obrigado por usar o Accounts!'))
         process.exit()
@@ -109,7 +109,7 @@ function checkAccount(accountName){
     return true 
 }
 
-//RESPONSAVEL POR VERIFICAR SE TEM ERRO NA DEPOSITO E FAZER O DEPOSITO NA CONTA
+//RESPONSAVEL POR VERIFICAR SE TEM ERRO NO DEPOSITO/ E FAZER O DEPOSITO NA CONTA
 function addAmount(accountName,amount){
 
     const accountDate = getAccount(accountName)
@@ -137,5 +137,73 @@ const accountJSON = fs.readFileSync(`accounts/${accountName}.json`,{
 })
 
 return JSON.parse(accountJSON)
+
+}
+
+//FUNÇÃO RESPONSAVEL POR CONSULTAR O SALDO DA CONTA
+
+function getAccountBalance(){
+    inquirer.prompt([{
+        name:'accountName',
+        message:'Qual o nome da sua conta ?',
+    },]).then((answer) =>{
+        const accountName =  answer['accountName']
+        if(!checkAccount(accountName)){
+            return getAccountBalance()
+        }
+
+        const accountDate = getAccount(accountName)
+        console.log(chalk.bgBlue.black(`Ola, o saldo da sua conta e de R$ ${accountDate.balance}`),)
+        operation()
+
+    }).catch((err) =>{console.log(err)})
+}
+
+//FUNÇAO RESPONSAVEL POR SAQUE DA CONTA
+function withdraw(){
+
+inquirer.prompt([{
+    name:'accountName',
+    message:'Qual o nome da sua conta',
+},]).then((answer) =>{
+    const accountName = answer['accountName']
+    if(!checkAccount(accountName)){
+        return withdraw()
+    }
+
+    inquirer.prompt([{
+        name:'amount',
+        message:'Quanto voce deseja sacar',
+    },]).then((answer) =>{
+         const amount = answer['amount']
+
+        removeAmount(accountName,amount)
+
+    
+    }).catch((err) =>{console.log(err)})
+} ).catch((err) =>{console.log(err)})
+
+}
+
+
+
+function removeAmount(accountName,amount){
+const accountDate = getAccount(accountName)
+
+if(!amount){
+    console.log(chalk.bgRed.black('Ocorreu um erro, tente novamente mais tarde'),)
+    return withdraw()
+}
+  if(accountDate.balance < amount){
+    console.log(chalk.bgRed.black('Valo indisponivel'))
+    return withdraw()
+  }
+
+   accountDate.balance = parseFloat(accountDate.balance) - parseFloat(amount)
+   fs.writeFileSync(`accounts/${accountName}.json`,JSON.stringify(accountDate),(err) =>{console.log(err)})
+
+   console.log(chalk.green(`Foi realizado um saque de R$ ${amount} da sua conta!`))
+
+  operation()
 
 }
