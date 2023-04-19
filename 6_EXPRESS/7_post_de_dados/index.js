@@ -4,7 +4,7 @@ const port = 3000
 const path =  require('path')
 
 const basePath = path.join(__dirname, 'tamplates')
-
+//ler o body o corpo da requisição atraves de middleware 
 app.use(
     express.urlencoded({
         extended:true,
@@ -23,6 +23,14 @@ app.post('/users/save',(req,res) =>{
 
 const name = req.body.name
 const age = req.body.age
+// if(name === 'luan' && age ==='26'){
+//     console.log('Seja Bem vindo')
+//     res.sendFile(`${basePath}/index.html`)
+
+// }else{
+    
+//     res.end(`<h1>Usuario e senha incorreto </h1>`)
+// }
 
 console.log(`O nome do usuario é ${name} e ele tem ${age} anos!`)
 
