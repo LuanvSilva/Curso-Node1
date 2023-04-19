@@ -33,3 +33,4 @@ app.listen(port, ()=>{
     console.log(`App rodando na porta ${port}`)
 })
 
+//app.engine('handlebars',exphbs.engine())
