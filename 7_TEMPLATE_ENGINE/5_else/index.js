@@ -6,7 +6,10 @@ app.engine('handlebars',exphbs.engine())
 app.set('view engine','handlebars')
 
 app.get('/dashbord',(req,res) =>{
-    res.render('dashbord')
+
+    const itens = ["item A","item B","item C"]
+
+    res.render('dashbord',{itens})
 })
 
 app.get('/',(req,res) =>{
@@ -17,9 +20,10 @@ app.get('/',(req,res) =>{
     }
     const palavra = 'Athletico Pr'
     const auth = true
+    const approved = false
     
     
-    res.render('home',{user: user,palavra,auth})
+    res.render('home',{user: user,palavra,auth,approved})
 
 })
 
