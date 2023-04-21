@@ -5,6 +5,7 @@ const app = express()
 const hbs = exphbs.create({
     partialsDir:["views/partials"],
 })
+
 app.engine('handlebars',hbs.engine)
 app.set('view engine','handlebars')
 
@@ -53,8 +54,8 @@ app.get('/blog',(req,res) =>{
         comments:4,
     },
 ]
-    res.render("blog" ,{posts})
-})
+    res.render('blog' ,{posts})
+})  
 app.get('/',(req,res) =>{
     const user = {
         name:'Luan',
