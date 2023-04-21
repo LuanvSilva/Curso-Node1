@@ -1,3 +1,5 @@
 <h1>Ola Handllebars</h1>
 <p>O nome do usuario e {{user.name}} {{user.surname}} e ele tem  {{user.age}} anos</p>
-<p>{{palavra}}</p>
+{{#if auth}}
+<p>Voce esta autenticado, <a href="/dashbord"></a> clique aqui para acessar a area de membros</p>
+{{/if}}
