@@ -31,8 +31,9 @@ app.get("/product/:id",(req,res) =>{
 
     const product = products[parseInt(req.params.id) - 1]
 
-    res.render('home',{products})
+    res.render('product',{product})
     
 })
+
 app.listen(3000)
 
