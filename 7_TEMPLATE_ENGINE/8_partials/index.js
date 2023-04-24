@@ -70,6 +70,7 @@ app.get('/',(req,res) =>{
     res.render('home',{user: user,palavra,auth,approved})
 
 })
+//123
 
 app.listen(3000,() =>{
     console.log('Rodando na porta 3000')
