@@ -27,6 +27,7 @@ app.get('/post',(req,res) =>{
     
     res.render('blogpost',{post})
 })
+////
 app.get('/blog',(req,res) =>{
     const posts = [
     {
