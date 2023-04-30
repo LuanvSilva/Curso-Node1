@@ -54,7 +54,7 @@ app.get('/blog',(req,res) =>{
         body:'Este artigo vai te ajudar a aprender Go Lang ...',
         comments:4,
     },
-]
+] /////////////
     res.render('blog' ,{posts})
 })  
 app.get('/',(req,res) =>{
