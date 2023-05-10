@@ -20,9 +20,10 @@ app.get('/', (req,res) =>{
 app.post('/books/insertbook',(req,res) =>{
 const title = req.body.title
 const pageqty = req.body.pageqty
-const sql = `INSERT INTO books (title,pageqty) VALUES ('${title}','${pageqty}')`
+const sql = `INSERT INTO books (??,??) VALUES (?,?)`
+const data = ['title','pageqty',title,pageqty]
 
-pool.query(sql,(err) =>{
+pool.query(sql,data,(err) =>{
     if(err) {
         console.log(err)
     }
@@ -47,8 +48,9 @@ app.get('/books',(req,res) =>{
 
 app.get('/books/:id',(req,res) =>{
 const id = req.params.id
-const sql = `SELECT * FROM books WHERE id = ${id}`
-pool.query(sql,(err,data) =>{
+const sql = `SELECT * FROM books WHERE ?? = ?`
+const date = ['id',id]
+pool.query(sql,date,(err,data) =>{
     if(err) {
         console.log(err)    
         return
@@ -77,8 +79,9 @@ app.post('/books/updatebook',(req,res) =>{
     const title = req.body.title
     const pageqty = req.body.pageqty
 
-    const sql = `UPDATE books SET title = '${title}',pageqty = '${pageqty}' WHERE id = ${id} `
-    pool.query(sql,(err,data) =>{
+    const sql = `UPDATE books SET ?? = ?, ?? = ? WHERE ?? = ? `
+    const data = ['title',title,'pageqty',pageqty,'id',id]
+    pool.query(sql,data,(err,data) =>{
         if(err) {
             console.log(err)
             return
