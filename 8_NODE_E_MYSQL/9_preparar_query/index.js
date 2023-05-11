@@ -23,6 +23,7 @@ const pageqty = req.body.pageqty
 const sql = `INSERT INTO books (??,??) VALUES (?,?)`
 const data = ['title','pageqty',title,pageqty]
 
+debugger
 pool.query(sql,data,(err) =>{
     if(err) {
         console.log(err)
