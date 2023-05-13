@@ -11,7 +11,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.sendFile(`${basePath}/index.html`);
 });
-
+//////
 app.post('/', (req, res) => {
     const nome = req.body.nome;
     const email = req.body.email;
