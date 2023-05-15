@@ -3,7 +3,7 @@ const mysql = require('mysql2');
 const app = express();
 const path = require('path');
 
-const basePath = path.join(__dirname, 'templates');
+const basePath = path.join(__dirname, 'tamplates');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -12,14 +12,14 @@ app.get('/', (req, res) => {
     res.sendFile(`${basePath}/index.html`);
 });
 //////
-app.post('/', (req, res) => {
+app.post('/books', (req, res) => {
     const nome = req.body.nome;
     const email = req.body.email;
     const senha = req.body.senha;
     const telefone = req.body.telefone;
     const data = req.body.data;
 
-    const sql = `INSERT INTO cadastro (Nome, Email, Senha, Telefone, Data) VALUES ('${nome}', '${email}', '${senha}', '${telefone}', '${data}')`;
+    const sql = `INSERT INTO cadastro (Nome, Email, Senha, Telefone, Nascimento) VALUES ('${nome}', '${email}', '${senha}', '${telefone}', '${data}')`;
     conn.query(sql, (err) => {
         if (err) {
             console.log(err);
