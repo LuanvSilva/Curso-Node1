@@ -4,6 +4,7 @@ const conn = require('./db/conn')
 const User = require('./models/User')
 const Address = require('./models/Address')
 
+
 const app = express()
 app.use(
     express.urlencoded({
@@ -70,6 +71,23 @@ app.post('/users/update', async (req,res) =>{
             }
          await   User.update({id,name, occupation, newsletter}, {where: {id: id}})
             res.redirect('/')
+})
+
+app.post('/address/create', async (req,res) =>{
+    const UserId = req.body.UserId
+    const street = req.body.street
+    const num = req.body.num
+    const city = req.body.city
+
+    const address = {
+        UserId,
+        street,
+        num,
+        city
+    }
+    await Address.create(address)
+
+    res.redirect('/')
 })
 
 app.get('/', (req,res) =>{

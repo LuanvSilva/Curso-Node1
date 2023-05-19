@@ -7,14 +7,15 @@ const Address = db.define('Address',{
             type: DataTypes.STRING,
             allowNull: false
         },
-        street: {
+        num: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        street: {
+        city: {
             type: DataTypes.STRING,
             allowNull: false
         },
 })
+
 Address.belongsTo(User)
 module.exports = Address

@@ -22,3 +22,23 @@
 </div>
 <input class="form-control" id="btn" type="submit" value="cadastrar">
 </form>
+<div>
+    <h2>Endereços</h2>
+    <form action="/address/create" method="POST">
+    <input type="hidden" name="UserId" value="{{user.id}}">
+    <div class="form-control">
+        <label for="street">Rua:</label>
+        <input type="text" name="street" id="street" placeholder="Digite a rua" value="{{user.street}}" />
+    </div>
+      <div class="form-control">
+        <label for="street">Numero:</label>
+        <input type="text" name="num" id="num" placeholder="Digite a rua" value="{{user.num}}" />
+    </div>
+      <div class="form-control">
+        <label for="street">Cidade:</label>
+        <input type="text" name="city" id="city" placeholder="Digite a rua" value="{{user.city}}" />
+    </div>
+    <input type="submit" value="Incluir indereço">
+    
+    </form>
+</div>
