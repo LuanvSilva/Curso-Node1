@@ -57,6 +57,20 @@ app.get('/', async (req,res) =>{
     res.render('home', {users: users})
     })
 
+app.post('/users/update', async (req,res) =>{
+    const id = req.body.id
+    const name = req.body.name
+    const occupation = req.body.occupation
+    let newsletter = req.body.newsletter
+    if (newsletter === 'on'){
+        newsletter = true
+        }else{
+            newsletter = false
+            }
+         await   User.update({id,name, occupation, newsletter}, {where: {id: id}})
+            res.redirect('/')
+})
+
 app.get('/', (req,res) =>{
     res.render('home')
 })
