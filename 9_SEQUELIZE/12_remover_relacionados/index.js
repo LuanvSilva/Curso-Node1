@@ -102,7 +102,7 @@ app.get('/', (req,res) =>{
 //sync({force: true})
 conn.
 sync().then(() =>{
-
+///////////
 app.listen(3000)
 ////////////
 }).catch((err) =>{
