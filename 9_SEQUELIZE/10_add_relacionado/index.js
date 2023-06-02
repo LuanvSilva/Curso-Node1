@@ -24,6 +24,7 @@ app.post('/users/create', async (req,res) =>{
     const name = req.body.name
     const occupation = req.body.occupation
     let newsletter = req.body.newsletter
+    
 
     if (newsletter === 'on'){
         newsletter = true
