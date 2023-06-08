@@ -23,7 +23,7 @@ app.get('/post',(req,res) =>{
             comments:4,
         }
       
-    
+    ////////////////////
     
     res.render('blogpost',{post})
 })
