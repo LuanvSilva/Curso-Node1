@@ -12,8 +12,9 @@ const conn = require('./db/conn')
 //models
 const Tought = require('./models/Tought')
 const User = require('./models/User')
-const toughtsRoutes = require('./routes/toughtsRoutes')
 
+const toughtsRoutes = require('./routes/toughtsRoutes')
+const ToughtsController = require('./controllers/ToughtsController')
 
 //recebe resposta do body
 app.use(
@@ -59,7 +60,9 @@ app.use((req,res,next)=>{
     next()
 
 })
+
 app.use('/toughts', toughtsRoutes)
+app.get('/',ToughtsController.showToughts)
 
 
 conn
