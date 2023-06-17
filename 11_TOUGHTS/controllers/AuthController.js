@@ -16,10 +16,19 @@ module.exports = class AuthController {
         }
         //check if password math
         const passwordMatch = await bcrypt.compareSync(password, user.password)
-        if(!password){
+        if(!passwordMatch){
             req.flash('message','Senha incorreta!')
             res.render('auth/login')
+            return
         }
+        //inicializar sessão
+        req.session.userid = user.id;
+        req.flash('message','Autenticação realizado com sucesso!')
+
+        req.session.save(() =>{
+            res.redirect('/')
+        })
+    
     }
     static register(req,res){
         res.render('auth/register')
