@@ -9,12 +9,15 @@
         <li>
             <span class="label">{{this.title}}</span>
             <span class="action"></span>
-            <a href="/" class="btn">Editar</a>
-            <form action="/">
+            <a href="/toughts/edit/{{this.id}}" class="btn">Editar</a>
+            <form action="/toughts/remove" method="POST">
             <input type="hidden" name="id" value="{{this.id}}">
             <input type="submit" value="excluir" class="btn">
             </form>
         </li>
         {{/each}}
     </ul>
+    {{#if empatyToughts}}
+    <p>Ainda não nenhum pensamento seu, comece a criar <a href="toughts/add">por aqui</a></p>
+    {{/if}}
 </div>
