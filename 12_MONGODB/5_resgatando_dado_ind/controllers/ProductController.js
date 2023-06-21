@@ -28,8 +28,8 @@ module.exports = class ProductController {
 
         const id = req.params.id
         const product = await Product.getProductById(id)
-
-        res.render('products/product')
+debugger
+        res.render('products/product', {product})
 
     }
 }
