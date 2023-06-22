@@ -10,6 +10,8 @@ module.exports = class ProductController {
     static createProduct(req,res){
         res.render('products/create')
     }
+
+    
     static async createProductPost(req,res){
         const name = req.body.name
         const image = req.body.image
@@ -32,15 +34,15 @@ module.exports = class ProductController {
 
     }
 
-    // static async removeProduct(req,res){
-    //     const id = req.params.id
+    static async removeProduct(req,res){
+        const id = req.params.id
 
-    //    await Product.removeProductById(id)
+       await Product.deleteOne({_id: id})
       
-    //     res.redirect('/products')
+        res.redirect('/products')
 
 
-    // }
+    }
 
     static async editProduct(req,res){
 
