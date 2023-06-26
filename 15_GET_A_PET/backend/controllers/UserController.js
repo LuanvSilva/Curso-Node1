@@ -44,11 +44,11 @@ module.exports = class UserController {
                 error: "As senhas não conferem!"
             });
         }
-        
-        const userExists = await User.findOne({email: email})
 
-        if(userExists){
-            return  res.status(422).json({
+        const userExists = await User.findOne({ email: email })
+
+        if (userExists) {
+            return res.status(422).json({
                 error: "Usuario ja cadastrado, Por favor use outro Email!"
             })
         }
@@ -58,36 +58,57 @@ module.exports = class UserController {
         const passwordHash = await bcrypt.hash(password, salt)
 
         //create user 
-         const user = new User({
+        const user = new User({
             name,
             email,
             phone,
-            password:passwordHash,
-         })
+            password: passwordHash,
+        })
 
-         try {
+        try {
             const newUser = await user.save()
-           await createUserToken(newUser, req, res)
-         } catch (error) {
-            res.status(500).json({message: error})
-         }
+            await createUserToken(newUser, req, res)
+        } catch (error) {
+            res.status(500).json({ message: error })
+        }
 
     }
 
-    static async login(req,res){
-            const {email, password} = req.body
-            if (!email) {
-                return res.status(401).json({
-                    error: 'O Email é obrigatório!'
-    
-                })
-            }
-         
-            if (!password) {
-                return res.status(401).json({
-                    error: 'A Senha é obrigatório!'
-    
-                })
-            }
+    static async login(req, res) {
+        const { email, password } = req.body
+        if (!email) {
+            return res.status(401).json({
+                error: 'O Email é obrigatório!'
+
+            })
+        }
+
+        if (!password) {
+            return res.status(401).json({
+                error: 'A Senha é obrigatório!'
+
+            })
+        }
+
+        const user = await User.findOne({ email: email })
+
+        if (!user) {
+            return res.status(422).json({
+                error: "Não a usuario cadastrado com este Email"
+            })
+        }
+
+        //  check if password 
+
+        const checkPassword = await bcrypt.compare(password, user.password)
+
+        if (!checkPassword) {
+            return res.status(422).json({
+                error: "Senha Inválida"
+            })
+        }
+
+        await createUserToken(user, req, res)
+
     }
 }
