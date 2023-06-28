@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken')
 //Helpers
 const createUserToken = require('../helpers/create-user-token')
 const getToken = require('../helpers/get-token')
+const getUserByToken = require('../helpers/get-user-by-token')
+const { get } = require('mongoose')
 
 module.exports = class UserController {
     static async register(req, res) {
@@ -144,10 +146,18 @@ module.exports = class UserController {
         res.status(200).json({ user })
     }
 
+
     static async editUser(req,res){
 
         //check if user exists
         const id = req.params.id
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        if(!user){
+            res.status(422).json({ message:'Usuário não existe' })
+            return
+        }
         
 
         const {name, email, phone, password, confirmpassword} = req.body
@@ -167,9 +177,15 @@ module.exports = class UserController {
             })
         }
         
+        //check if email has already taken
         const userExists = await User.findOne({email: email})
 
-        if(user.email !== email )
+        if(user.email !== email && userExists ){
+            res.status(422).json({ message:'Por favor utilize outro email' })
+            return
+        }
+
+
 
         if(!user){
             res.status(422).json({ message:'Usuário não existe' })
@@ -195,12 +211,7 @@ module.exports = class UserController {
             })
         }
 
-        const user = await User.findById(id)
-
-        if(!user){
-            res.status(422).json({ message:'Usuário não existe' })
-            return
-        }
+      
         
         
     }
