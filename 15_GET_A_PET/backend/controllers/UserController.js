@@ -143,4 +143,66 @@ module.exports = class UserController {
         }
         res.status(200).json({ user })
     }
+
+    static async editUser(req,res){
+
+        //check if user exists
+        const id = req.params.id
+        
+
+        const {name, email, phone, password, confirmpassword} = req.body
+        let image = ''
+           //validations
+           if (!name) {
+            return res.status(401).json({
+                error: 'O nome é obrigatório!'
+
+            })
+        }
+        user.name = name
+        if (!email) {
+            return res.status(401).json({
+                error: 'O Email é obrigatório!'
+
+            })
+        }
+        
+        const userExists = await User.findOne({email: email})
+
+        if(user.email !== email )
+
+        if(!user){
+            res.status(422).json({ message:'Usuário não existe' })
+            return
+        }
+
+        if (!phone) {
+            return res.status(401).json({
+                error: 'O Telefone é obrigatório!'
+
+            })
+        }
+        if (!password) {
+            return res.status(401).json({
+                error: 'A Senha é obrigatório!'
+
+            })
+        }
+        if (!confirmpassword) {
+            return res.status(401).json({
+                error: 'A Confirmação da Senha é obrigatório!'
+
+            })
+        }
+
+        const user = await User.findById(id)
+
+        if(!user){
+            res.status(422).json({ message:'Usuário não existe' })
+            return
+        }
+        
+        
+    }
+    
 }
