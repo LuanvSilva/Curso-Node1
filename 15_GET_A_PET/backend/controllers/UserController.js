@@ -154,14 +154,12 @@ module.exports = class UserController {
         const token = getToken(req)
         const user = await getUserByToken(token)
 
-        if(!user){
-            res.status(422).json({ message:'Usuário não existe' })
-            return
-        }
-        
-
         const {name, email, phone, password, confirmpassword} = req.body
-        let image = ''
+       
+
+        if(req.file){
+            user.image = req.file.filename
+        }
            //validations
            if (!name) {
             return res.status(401).json({
