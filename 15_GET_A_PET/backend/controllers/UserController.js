@@ -198,20 +198,35 @@ module.exports = class UserController {
 
             })
         }
-        if (!password) {
+        user.phone = phone
+
+        if (password != confirmpassword) {
             return res.status(401).json({
-                error: 'A Senha é obrigatório!'
+                error: 'As Senha não conferem'
+            
 
             })
+            
+        }else if(password === confirmpassword && password != null){
+            const salt = await bcrypt.genSalt(12)
+            const passwordHash = await bcrypt.hash(password, salt)
+            user.password = passwordHash
+
         }
-        if (!confirmpassword) {
+
+        try {
+            
+            //return user updated data 
+            const updated = await User.findByIdAndUpdate({_id: user._id},{$set: user},{new: true})
+             res.status(200).json({
+                message: "Ususario atualizado com sucesso"})
+        } catch (error) {
             return res.status(401).json({
-                error: 'A Confirmação da Senha é obrigatório!'
-
-            })
+            message: error})
         }
-
       
+
+        
         
         
     }
