@@ -13,9 +13,10 @@ app.use(cors({credentials: true, origin:'http//localhost:3000'}));
 
 //Router
 const UserRoutes = require('./routes/UserRoutes')
+const PetRoutes = require('./routes/PetRoutes')
 
 app.use('/users', UserRoutes)
-
+app.use('/pets', PetRoutes)
 app.listen(5000,() =>{
 
     console.log("Server is running")
