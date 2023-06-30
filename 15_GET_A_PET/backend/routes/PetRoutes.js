@@ -3,8 +3,11 @@ const PetController = require('../controllers/PetController')
 
 //middlewares
 const veryfyToken = require('../helpers/verify-token')
+const { imageUpload } = require('../helpers/image-upload')
 
 
-router.post('/create', veryfyToken, PetController.create)
+router.post('/create', veryfyToken, imageUpload.array('images'), PetController.create)
+router.get('/', PetController.getAll)
+router.get('/mypets',veryfyToken, PetController.getAllUserPets)
 
 module.exports = router
