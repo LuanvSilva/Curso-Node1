@@ -12,3 +12,5 @@ router.get('/mypets',veryfyToken, PetController.getAllUserPets)
 router.get('/myadoption', veryfyToken, PetController.getAllUserAdoptions)
 
 module.exports = router
+
+////////
